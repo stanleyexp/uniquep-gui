@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "uniquep-gui"
+version = "0.1.0"
+description = ""
+authors = ["tingwei628 <sbvq6p199xe@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+PyQt5 = "^5.15.6"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
