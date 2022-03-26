@@ -1,3 +1,4 @@
+from PyQt5 import uic
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import (
     QApplication,
@@ -18,14 +19,12 @@ from PyQt5.QtWidgets import (
     QSpinBox,
     QGridLayout,
     QStackedLayout,
-    QTabWidget
+    QTabWidget,
+    QFileDialog
 )
-"""
-1.search/download/upload -> async?
-2. two pages => search page and upload page
-3. can handle search and upaload at the same time
 
-"""
+from MainWindow5 import Ui_Form
+
 import sys
 class Search(QWidget):
     def __init__(self):
@@ -229,17 +228,36 @@ class MainWindow3(QWidget):
         tabs.addTab(wid2, "upload")
         layout.addWidget(tabs)
 
-
+class MainWindow5(QWidget, Ui_Form):
+    def __init__(self, *args, obj=None, **kwargs):
+        super(QWidget, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        self.select_file_btn.clicked.connect(self.openFile)
+        self.upload_btn.clicked.connect(self.upload)
         
+    
+    # from: https://stackoverflow.com/a/44076057
+    def openFile(self):   
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
+        self.upload_file_label.setText(fileName)
+        # if fileName:
+        #     print(fileName)
+    def upload(self):
+        # get input
+        # get current select file
+        pass
 
 # only one QApplication instance per application
 # app = QApplication([])
 app = QApplication(sys.argv)
 # window = MainWindow()
 # window = MainWindow2()
-window = MainWindow3()
+# window = MainWindow3()
 
-
+# window = uic.loadUi("uniquep.ui")
+window = MainWindow5()
 # Windows are hidden by default
 window.show()
 
