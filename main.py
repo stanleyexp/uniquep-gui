@@ -123,6 +123,7 @@ class MainWindow(QWidget, Ui_Form):
         query = QSqlQuery()
         self.keyword = input
         if self.keyword:
+            self.keyword = self.keyword + ' *'  # prefix search (sqlite fts5)
             self.count_sql = """
                 SELECT COUNT(*) FROM uniquep_vtable WHERE uniquep_vtable MATCH ?
             """
