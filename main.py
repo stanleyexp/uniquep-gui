@@ -34,6 +34,7 @@ from contextlib import closing
 class MainWindow(QWidget, Ui_Form):
     def __init__(self, *args, obj=None, **kwargs):
         super(QWidget, self).__init__(*args, **kwargs)
+        self.conn_name = "uniquep.db"
         self.total_page = None
         self.total_count = None
         self.count_per_page = 10
@@ -59,9 +60,12 @@ class MainWindow(QWidget, Ui_Form):
         self.keyword = ''
         self.load_data()
         
+        
         # temp test
         self.delete_all_btn.clicked.connect(self.delete_all)
         self.insert_all_btn.clicked.connect(self.insert_all)
+    def closeEvent(self, event): # close window
+        self.disconnect_db()
     def delete_all(self):
         pass
     def insert_all(self):
@@ -79,7 +83,7 @@ class MainWindow(QWidget, Ui_Form):
         self.query_page(self.curr_page)
     def query_page(self, page=1):
         # prevent sql injection
-        query = QSqlQuery()
+        query = QSqlQuery(self.conn_name)
         offset = (page - 1) * self.count_per_page
         query.prepare(self.page_sql)
         if self.keyword:
@@ -120,7 +124,7 @@ class MainWindow(QWidget, Ui_Form):
         # from https://github.com/simonw/datasette/issues/651#issuecomment-579675357
         bits = input.split()
         input = ' '.join('"{}"'.format(bit.replace('"', '')) for bit in bits)
-        query = QSqlQuery()
+        query = QSqlQuery(self.conn_name)
         self.keyword = input
         if self.keyword:
             self.keyword = self.keyword + ' *'  # prefix search (sqlite fts5)
@@ -161,10 +165,10 @@ class MainWindow(QWidget, Ui_Form):
     def download(self):
         print("download search result")
     def connect_db(self):
-        if not exists("uniquep.db"):
+        if not exists(self.conn_name):
             # init db
             
-            with sqlite3.connect("uniquep.db") as connection:
+            with sqlite3.connect(self.conn_name) as connection:
                 with closing(connection.cursor()) as cursor:
                     """
                     column
@@ -219,7 +223,7 @@ class MainWindow(QWidget, Ui_Form):
                     connection.commit()
            
         self.conn = QSqlDatabase.addDatabase("QSQLITE")
-        self.conn.setDatabaseName("uniquep.db")
+        self.conn.setDatabaseName(self.conn_name)
         if not self.conn.open():
             sys.exit(1)
         
@@ -227,7 +231,7 @@ class MainWindow(QWidget, Ui_Form):
         if not self.conn.isOpen():
             sys.exit(1)
         self.conn.close()
-        QSqlDatabase.removeDatabase(QSqlDatabase.database().connectionName())
+        QSqlDatabase.removeDatabase(self.conn_name)
 
     def load_data(self):
         # connection pool ?
@@ -236,7 +240,7 @@ class MainWindow(QWidget, Ui_Form):
         # self.table_model.select()
         # self.table_model.setQuery("select * from uniquep_table")
         # self.total_count = self.table_model.rowCount()
-        query = QSqlQuery()
+        query = QSqlQuery(self.conn_name)
         query.prepare(self.count_sql)
         # print(f"self.count_sql {self.count_sql}")
         query.exec()
