@@ -64,9 +64,7 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pypoetry
-          key: ${{ matrix.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-poetry-
+          key: ${{ matrix.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-v2-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -74,7 +72,8 @@ jobs:
       
       - name: build with pyinstaller
         run: |
-          poetry run pyinstaller -w --onefile uniquep-gui.py
+          poetry shell
+          pyinstaller -w --onefile uniquep-gui.py
       # - name: zip artifact
       #   run: |
       #     zip -r dist.zip dist
