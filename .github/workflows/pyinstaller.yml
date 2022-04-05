@@ -72,8 +72,7 @@ jobs:
       
       - name: build with pyinstaller
         run: |
-          poetry shell
-          pyinstaller -w --onefile uniquep-gui.py
+          poetry run pyinstaller -w --onefile uniquep-gui.py
       # - name: zip artifact
       #   run: |
       #     zip -r dist.zip dist
