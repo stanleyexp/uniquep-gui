@@ -31,13 +31,13 @@ jobs:
         # os: [windows-latest, macos-latest]
         include:
           - os: windows-latest
-            pyinstaller-build: pyinstaller -w --onefile --upx-exclude=python38.dll --upx-exclude=vcruntime140.dll .\uniquep-gui.py
-            file-upx: dist/uniquep-gui.exe 
+            pyinstaller-build: pyinstaller -w --onefile --upx-exclude=python38.dll --upx-exclude=vcruntime140.dll uniquep-gui.py
+            file-upx: dist\uniquep-gui.exe 
           # - os: macos-latest
           #   pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
           #   file-upx: dist/uniquep-gui
         python-version:
-          - '3.8'
+          - '3.8.1'
         poetry-version:
           - '1.1.6'
 
