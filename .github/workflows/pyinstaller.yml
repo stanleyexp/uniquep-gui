@@ -28,6 +28,7 @@ jobs:
       matrix:
         os:
           - windows-latest
+          - macos-latest
         python-version:
           - '3.8'
         poetry-version:
@@ -76,6 +77,10 @@ jobs:
       # - name: zip artifact
       #   run: |
       #     zip -r dist.zip dist
+      - name: compress with upx
+        uses: svenstaro/upx-action@v2
+        with:
+          file: dist/uniquep-gui.exe
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
