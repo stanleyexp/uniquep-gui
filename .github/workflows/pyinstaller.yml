@@ -26,9 +26,13 @@ jobs:
   build-uniquep-gui:
     strategy:
       matrix:
-        os:
-          - windows-latest
-          - macos-latest
+        include:
+          - os: windows-latest
+            pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
+            file-upx: dist/uniquep-gui.exe 
+          - os: macos-latest
+            pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
+            file-upx: dist/uniquep-gui
         python-version:
           - '3.8'
         poetry-version:
@@ -75,14 +79,15 @@ jobs:
       
       - name: build with pyinstaller
         run: |
-          poetry run pyinstaller -w --onefile uniquep-gui.py
+          poetry run ${{ matrix.pyinstaller-build }}
       # - name: zip artifact
       #   run: |
       #     zip -r dist.zip dist
       - name: compress with upx
         uses: svenstaro/upx-action@v2
         with:
-          file: dist/uniquep-gui.exe
+          file: ${{ matrix.file_to_upx }}
+          # file: dist/uniquep-gui.exe
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
