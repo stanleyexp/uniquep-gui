@@ -85,11 +85,10 @@ jobs:
       # - name: zip artifact
       #   run: |
       #     zip -r dist.zip dist
-      - name: compress with upx
-        uses: svenstaro/upx-action@v2
-        with:
-          file: ${{ matrix.file-upx }}
-          # file: dist/uniquep-gui.exe
+      # - name: compress with upx
+      #   uses: svenstaro/upx-action@v2
+      #   with:
+      #     file: ${{ matrix.file-upx }}
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
