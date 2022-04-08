@@ -86,7 +86,7 @@ jobs:
       - name: compress with upx
         uses: svenstaro/upx-action@v2
         with:
-          file: ${{ matrix.file_to_upx }}
+          file: ${{ matrix.file-upx }}
           # file: dist/uniquep-gui.exe
       - name: upload artifact
         uses: actions/upload-artifact@v3
