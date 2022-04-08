@@ -51,9 +51,12 @@ jobs:
         id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
-      - name: install upx on macOS
-        if: runner.os == 'macOS'
-        run: brew install upx
+      - name: do something on Windows
+        if: runner.os == 'Windows'
+        run: choco download upx
+      # - name: install upx on macOS
+      #   if: runner.os == 'macOS'
+      #   run: brew install upx
       - name: Install poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
