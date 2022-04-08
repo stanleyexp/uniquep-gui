@@ -87,7 +87,7 @@ jobs:
       
       - name: current on Windows
         if: runner.os == 'Windows'
-        run: echo %cd%
+        run: cd $GITHUB_WORKSPACE
       - name: build with pyinstaller
         run: |
           poetry run ${{ matrix.pyinstaller-build }}
