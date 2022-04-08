@@ -92,7 +92,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: uniquep-gui
-          path: dist/uniquep-gui.exe
+          path: |
+            dist/uniquep-gui
+            dist/uniquep-gui.exe
+          retention-days: 1
 
       # - name: Test
       #   run: |
