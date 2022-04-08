@@ -65,9 +65,9 @@ jobs:
         id: cache
         with:
           path: ~/.cache/pypoetry
-          key: ${{ matrix.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-v2-${{ hashFiles('**/poetry.lock') }}
+          key: ${{ matrix.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-v3-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
-            ${{ matrix.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-v2-
+            ${{ matrix.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-v3-
             ${{ matrix.os }}-
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
