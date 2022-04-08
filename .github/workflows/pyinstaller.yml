@@ -31,7 +31,7 @@ jobs:
         # os: [windows-latest, macos-latest]
         include:
           - os: windows-latest
-            pyinstaller-build: pyinstaller -w --onefile --upx-exclude=python38.dll --upx-exclude=vcruntime140.dll ./uniquep-gui.py
+            pyinstaller-build: pyinstaller -w --onefile --upx-exclude=python38.dll --upx-exclude=vcruntime140.dll uniquep-gui.py
             file-upx: dist/uniquep-gui.exe 
           # - os: macos-latest
           #   pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
@@ -69,7 +69,7 @@ jobs:
       
       - name: Configure poetry
         run: |
-          poetry config virtualenvs.in-project true
+          poetry config virtualenvs.in-project false
           poetry config virtualenvs.path ~/.cache/pypoetry
 
       - name: Cache Poetry virtualenv
@@ -86,8 +86,8 @@ jobs:
         run: poetry install
       
       - name: build with pyinstaller
+        working-directory: $GITHUB_WORKSPACE
         run: |
-          cd $GITHUB_WORKSPACE
           poetry run ${{ matrix.pyinstaller-build }}
         # poetry run pyinstaller -w --onefile uniquep-gui.py
 
