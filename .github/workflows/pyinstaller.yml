@@ -26,12 +26,13 @@ jobs:
   build-uniquep-gui:
     strategy:
       matrix:
+        os: [windows-latest, macos-latest]
         include:
           - os: windows-latest
-            pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
+            # pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
             file-upx: dist/uniquep-gui.exe 
           - os: macos-latest
-            pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
+            # pyinstaller-build: pyinstaller -w --onefile uniquep-gui.py
             file-upx: dist/uniquep-gui
         python-version:
           - '3.8'
@@ -79,7 +80,8 @@ jobs:
       
       - name: build with pyinstaller
         run: |
-          poetry run ${{ matrix.pyinstaller-build }}
+          poetry run pyinstaller -w --onefile uniquep-gui.py
+          # poetry run ${{ matrix.pyinstaller-build }}
       # - name: zip artifact
       #   run: |
       #     zip -r dist.zip dist
